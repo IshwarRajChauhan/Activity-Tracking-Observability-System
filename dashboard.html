@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2563eb;
+    }
+
+    .cards {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      flex: 1;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .card h2 {
+      font-size: 28px;
+      margin-top: 10px;
+    }
+
+    .activity {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .activity-item {
+      padding: 10px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>User Dashboard</h1>
+
+  <div class="top-bar">
+    <button onclick="loadData()">Load Data</button>
+
+    <a href="index.html">
+      <button>Back</button>
+    </a>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Logins</h3>
+      <h2 id="loginCount">0</h2>
+    </div>
+    <div class="card">
+      <h3>Uploads</h3>
+      <h2 id="uploadCount">0</h2>
+    </div>
+    <div class="card">
+      <h3>Clicks</h3>
+      <h2 id="clickCount">0</h2>
+    </div>
+  </div>
+
+  <div class="activity">
+    <h3>Recent Activity</h3>
+    <div id="activityList"></div>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://sm1zmdcmfd.execute-api.ap-south-1.amazonaws.com/dev";
+const USER_ID = "user_123";
+
+async function loadData() {
+  const res = await fetch(`${API_URL}/get-user-activity?user_id=${USER_ID}`);
+  const data = await res.json();
+
+  console.log("API RESPONSE:", data);
+
+  let logins = 0;
+  let uploads = 0;
+  let clicks = 0;
+
+  const list = document.getElementById("activityList");
+  list.innerHTML = "";
+
+  data.forEach(item => {
+    if (item.event_type === "login") logins++;
+    if (item.event_type === "upload") uploads++;
+    if (item.event_type === "click") clicks++;
+
+    const div = document.createElement("div");
+    div.className = "activity-item";
+    div.innerText = `${item.event_type} at ${item.timestamp}`;
+    list.appendChild(div);
+  });
+
+  document.getElementById("loginCount").innerText = logins;
+  document.getElementById("uploadCount").innerText = uploads;
+  document.getElementById("clickCount").innerText = clicks;
+}
+</script>
+
+</body>
+</html>

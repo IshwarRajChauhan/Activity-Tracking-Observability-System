@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Activity Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      width: 350px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background: #3b82f6;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #2563eb;
+      transform: scale(1.02);
+    }
+
+    .secondary {
+      background: #10b981;
+    }
+
+    .secondary:hover {
+      background: #059669;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Activity Tracker</h2>
+
+  <button onclick="sendEvent('login')">Login</button>
+  <button onclick="sendEvent('click')">Click</button>
+  <button onclick="sendEvent('upload')">Upload</button>
+
+  <a href="dashboard.html">
+    <button class="secondary">Go to Dashboard</button>
+  </a>
+</div>
+
+<script>
+const API_URL = "https://sm1zmdcmfd.execute-api.ap-south-1.amazonaws.com/dev";
+
+function sendEvent(eventType) {
+  fetch(API_URL + "/track", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      user_id: "user_123",
+      event_type: eventType,
+      metadata: {
+        source: "frontend"
+      }
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Event sent: " + eventType);
+  })
+  .catch(err => {
+    console.error("Error:", err);
+  });
+}
+</script>
+
+</body>
+</html>
