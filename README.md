@@ -8,19 +8,21 @@ This project is a **serverless event tracking system** built on AWS that capture
 
 ##  Architecture
 
-Frontend → API Gateway → AWS Lambda → DynamoDB
-↓
-CloudWatch Logs & Metrics
+<p align="center">
+  <img src="Architecture.png" width="800">
+</p>
+
 
 ---
 
 ##  Tech Stack
 
-* AWS Lambda (Python)
-* API Gateway (HTTP API)
-* DynamoDB
-* CloudWatch
-* HTML, CSS, JavaScript
+* AWS Lambda (Python) – Backend logic
+* API Gateway (HTTP API) – API layer
+* DynamoDB – NoSQL database for event storage
+* CloudWatch – Logging, monitoring, dashboards
+* HTML + CSS + JavaScript – Frontend dashboard
+
 
 ---
 
