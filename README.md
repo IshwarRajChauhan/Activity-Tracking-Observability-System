@@ -72,6 +72,8 @@ This project is a **serverless event tracking system** built on AWS that capture
 Create HTTP API with routes:
 
 * POST `/track` → `track-user-activity`
+
+* OPTIONS `/get-user-activity` → `get-user-activity`
 * GET `/get-user-activity` → `get-user-activity`
 
 ### Enable CORS:
